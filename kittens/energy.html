@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="author" content="patsy">
+	<meta name="description" content="Energy calculator for Kittens Game">
+
+	<title>Energy Calculator</title>
+	<script src="../lib/lz-string.js"></script>
+	<script src="../lib/jquery-3.2.1.slim.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="vs.css">
+
+	<style>
+		.red {
+			color: red;
+		}
+
+		.green {
+			color: green;
+		}
+	</style>
+
+</head>
+<body>
+	<div id="load">Loading...</div>
+	<form class="hidden">
+		<input id="showImport" type="button" value="Import data">
+		&nbsp;
+		<!-- <label><input id="usePerSecondValues" type="checkbox" checked> Use per second values <i>(per tick otherwise)</i></label> -->
+		<label><input id="forceHighPrecision" type="checkbox" checked> Use high precision</label>
+
+		<div id="importDiv" class="hidden">
+			Import save<br>
+			<textarea id="importData" style="width: 550px; height: 250px;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea><br>
+			<input id="importOK" type="button" value="OK">
+			<input id="importCancel" type="button" value="Cancel">
+			<span id="importError" class="hidden">Unable to import data!</span>
+		</div>
+		<br><br>
+
+		<table id="gains">
+			<tr><td>Energy production</td><td id="energyProdCurrent" class="green">0</td></tr>
+			<tr><td>Energy consumption</td><td id="energyConsCurrent" class="red">0</td></tr>
+			<tr><td>Sum</td><td id="energyTotalCurrent">0</td></tr>
+		</table>
+		<br>
+
+		<table id="calendar">
+			<tr><td>Year</td><td><input id="year" value="0"></td></tr>
+			<tr>
+				<td>Season</td>
+				<td>
+					<select id="season">
+						<option value="0">Spring</option>
+						<option value="1">Summer</option>
+						<option value="2">Autumn</option>
+						<option value="3">Winter</option>
+					</select>
+				</td>
+			</tr>
+			<tr><td>Planetary cycle</td><td><select id="cycleSel"></select></td></tr>
+			<tr id="temporalImpedanceRow"></tr>
+		</table>
+		<br>
+
+		<table id="buildingsBlock"></table>
+		<br>
+
+		<table id="spaceBlock"></table>
+		<br>
+
+		<table id="timeBlock"></table>
+		<br>
+
+		<table id="religionBlock">
+		</table>
+		<br>
+
+		<div id="workshopBlock"></div>
+		<br>
+
+		<div id="perksBlock"></div>
+		<br>
+
+		<div id="challengeBlock">
+			<label><input id="energyChallengeActive" type="checkbox"> Energy challenge active</label>
+		</div>
+	</form>
+
+	<p>
+		For <a href="http://bloodrizer.ru/games/kittens/" target="_blank">Kittens Game</a> version 1.4.6.2.b
+		&copy; <a href="http://bloodrizer.ru/" target="_blank">bloodrizer</a>.
+		<br><br>
+		Energy Calculator by <a href="../index.html" target="_blank">patsy</a>.
+	</p>
+
+	<script src="energy.js"></script>
+</body>
+</html>

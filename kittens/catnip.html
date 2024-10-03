@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="author" content="patsy">
+	<meta name="description" content="Catnip calculator for Kittens Game">
+
+	<title>Catnip Calculator</title>
+	<script src="../lib/lz-string.js"></script>
+	<script src="../lib/jquery-3.2.1.slim.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="vs.css">
+
+	<style>
+		#gains td {
+			vertical-align: middle;
+		}
+		#gains td ~ td ~ td {
+			padding-left: 10px;
+		}
+	</style>
+
+</head>
+<body>
+	<div id="load">Loading...</div>
+	<form class="hidden">
+		<input id="showImport" type="button" value="Import data">
+		&nbsp;
+		<label><input id="usePerSecondValues" type="checkbox" checked> Use per second values <i>(per tick otherwise)</i></label>
+		<label><input id="forceHighPrecision" type="checkbox" checked> Use high precision</label>
+
+		<div id="importDiv" class="hidden">
+			Import save<br>
+			<textarea id="importData" style="width: 550px; height: 250px;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea><br>
+			<input id="importOK" type="button" value="OK">
+			<input id="importCancel" type="button" value="Cancel">
+			<span id="importError" class="hidden">Unable to import data!</span>
+		</div>
+		<br><br>
+
+		<table id="gains">
+			<tr><td></td><td>Normal</td><td>Warm</td><td>Cold</td></tr>
+			<tr id="springRow"><td>Spring</td><td>0</td><td>0</td><td>0</td></tr>
+			<tr id="summerRow"><td>Summer &amp; Autumn</td><td>0</td><td>0</td><td>0</td></tr>
+			<tr id="winterRow"><td>Winter</td><td>0</td><td>0</td><td>0</td></tr>
+			<tr><td>Average season</td><td id="catnipAverage">0</td></tr>
+			<tr><td>Farmer <span class="noAnarchy">(dabbling)</span></td><td id="catnipDabbling">+0</td><td colspan="2"></td></tr>
+			<tr class="noAnarchy"><td>Farmer (master)</td><td id="catnipMaster">+0</td><td colspan="2"></td></tr>
+		</table>
+		<br>
+
+		<table id="calendar">
+			<tr><td>Year</td><td><input id="year" value="0"></td></tr>
+			<tr><td>Planetary cycle</td><td><select id="cycleSel"></select></td></tr>
+		</table>
+		<br>
+
+		<table id="res">
+			<tr><td>Kittens</td><td><input id="numKittens" value="0" max="9999"> / <span id="maxKittensSpan">0</span></td></tr>
+			<tr><td>Unemployed kittens</td><td><input id="unemployedKittens" value="0" max="9999"></td></tr>
+			<tr><td>Karma</td><td><input id="karma" class="deci" value="0"></td></tr>
+			<tr><td>Paragon</td><td><input id="paragon" value="0"></td></tr>
+			<tr><td>Burned paragon</td><td><input id="burnedParagon" value="0"></td></tr>
+			<tr id="CMBRBonusRow" class="hidden">
+				<td>Magic kittens</td>
+				<td>
+					<span id="CMBRBonusSpan">+0%</span>
+					<label><input id="disableCMBR" type="checkbox" checked> Disable</label>
+				</td>
+			</tr>
+			<tr><td>Happiness</td><td id="happinessSpan">100%</td></tr>
+		</table>
+
+		<div id="rareResources" class="row"></div>
+		<div class="row"><label><input id="festival" type="checkbox"> Festival</label></div>
+		<br>
+
+		<div id="census"></div>
+		<br>
+
+		<table id="buildingsBlock"></table>
+		<br>
+
+		<table id="spaceBlock"></table>
+		<br>
+
+		<table id="timeBlock"></table>
+		<br>
+
+		<table id="religionBlock">
+			<tr><td>Faith</td><td><input id="praise" value="0"> +<span id="praiseGain">0</span>%</td></tr>
+			<tr><td>Transcendence level</td><td><input id="transcendenceLevel" value="0" max="99"></td>
+		</table>
+		<br>
+
+		<div id="workshopBlock"></div>
+		<br>
+
+		<div id="perksBlock"></div>
+		<br>
+
+		<table id="challengeBlock">
+			<tr>
+				<td>Winter Has Come</td>
+				<td>
+					<label><input id="winterIsComingComplete" type="checkbox"> Complete</label>
+					<label><input id="winterIsComing" type="checkbox"> Active</label>
+				</td>
+			</tr>
+			<tr><td>Anarchy</td><td><label><input id="anarchy" type="checkbox"> Active</label></td></tr>
+			<tr><td>Atheism</td><td><label><input id="atheismComplete" type="checkbox"> Complete</label></td></tr>
+		</table>
+	</form>
+	<br>
+
+	<p>
+		For <a href="http://bloodrizer.ru/games/kittens/" target="_blank">Kittens Game</a> version 1.4.6.1
+		&copy; <a href="http://bloodrizer.ru/" target="_blank">bloodrizer</a>.
+		<br><br>
+		Catnip Calculator by <a href="../index.html" target="_blank">patsy</a>.
+	</p>
+
+	<script src="catnip.js"></script>
+</body>
+</html>

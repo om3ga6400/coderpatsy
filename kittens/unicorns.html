@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="author" content="patsy">
+	<meta name="description" content="Unicorns calculator for Kittens Game">
+
+	<title>Unicorns Calculator</title>
+	<script src="../lib/lz-string.js"></script>
+	<script src="../lib/jquery-3.6.0.slim.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="vs.css">
+	<style>
+		body.priority-unicorns .priorityCell:not(.unicorns),
+		body.priority-ivory .priorityCell:not(.ivory) {
+			display: none !important;
+		}
+
+		#unicornBuildings td {
+			vertical-align: middle;
+		}
+
+		.highlight {
+			background-color: #eeeeee;
+		}
+
+		.highlight > :last-child {
+			font-weight: bold;
+			color: #ff0000;
+		}
+
+		.timeDisplay {
+			min-width: 110px;
+		}
+
+		thead td,
+		#extras td[colspan] {
+			text-align: center;
+		}
+
+		#extras > div {
+			display: inline-block;
+			margin-right: 20px;
+			vertical-align: top;
+		}
+
+		#extras td[id] {
+			text-align: right;
+		}
+
+		.bldSeperator > td {
+			border-bottom: 1px dashed #cccccc;
+		}
+	</style>
+</head>
+<body class="priority-unicorns">
+
+	<div id="load">Loading...</div>
+
+	<form class="hidden">
+		<input id="showImport" type="button" value="Import data" tabindex="1">
+		<div id="importDiv" class="hidden">
+			Import save
+			<br>
+			<input id="importSaveFile" type="file" accept=".txt,text/plain" class="hidden">
+			<input id="importSaveFileSubmit" type="button" value="Import file">
+			<br><br>
+			<textarea id="importData" style="width: 550px; height: 220px;" tabindex="1" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+			<br>
+			<input id="importOK" type="button" value="OK" tabindex="1">
+			<input id="importCancel" type="button" value="Cancel" tabindex="1">
+			<span id="importError" class="hidden">Unable to import data!</span>
+		</div>
+		<br><br>
+
+		<div id="prioritySelectBlock">
+			Recommend by:
+			<label>
+				<input id="prioritySelectUnicorns" type="radio" name="prioritySelect" value="unicorns" class="noReset" checked>
+				Unicorns
+			</labeL>
+			<label>
+				<input id="prioritySelectIvory" type="radio" name="prioritySelect" value="ivory" class="noReset">
+				Ivory
+			</labeL>
+		</div>
+		<br>
+
+		<table id="unicornBuildings">
+			<thead>
+				<tr>
+					<td colspan="2">Name</td>
+					<td class="priorityCell unicorns" colspan="3">Cost</td>
+					<td class="priorityCell ivory">Cost</td>
+					<td class="priorityCell unicorns" colspan="2">Time to wait</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td class="alignLeft">
+						<label title="Toggle all buildings">
+							<input id="enableAllUnicornBuildings" type="checkbox" tabindex="1">
+							<span class="ital">Recommend</span>
+						</label>
+					</td>
+					<td></td>
+					<td class="priorityCell unicorns">in unicorns</td>
+					<td class="priorityCell unicorns">in tears</td>
+					<td class="priorityCell unicorns">in sacrifices</td>
+					<td class="priorityCell ivory">Ivory</td>
+					<td class="timeDisplay priorityCell unicorns">Average</td>
+					<td class="timeDisplay priorityCell unicorns">Max</td>
+					<td id="effGainHeader">+Eff. uPS</td>
+					<td class="timeDisplay">Amortization</td>
+					<td>Order to buy</td>
+				</tr>
+			</thead>
+			<tbody id="gains"></tbody>
+		</table>
+		<input id="buyRecommendedBtn" type="button" value="Buy recommended">
+		<br><br>
+
+		<div id="extras">
+			<div><table>
+				<tr><td>Base uPS</td><td id="upsBase">0</td></tr>
+				<tr><td>Building bonus</td><td id="upsBuildBonus">0%</td></tr>
+				<tr><td>Displayed uPS</td><td id="upsDisplay">0</td></tr>
+				<tr><td>Unicorns per rift</td><td id="upsPerRift">0</td></tr>
+				<tr><td>Tower effect</td><td id="upsTower">0</td></tr>
+				<tr><td>Effective uPS</td><td id="upsEffective">0</td></tr>
+			</table></div>
+
+			<div><table>
+				<tr><td colspan="2">Mean time between</td></tr>
+				<tr><td>Unicorn rifts</td><td id="avgRiftTime">---</td></tr>
+				<tr><td>Ivory meteors</td><td id="avgIvoryTime">---</td></tr>
+				<tr><td>Alicorn rifts</td><td id="avgAlicornTime">---</td></tr>
+			</table></div>
+
+			<div><table>
+				<tr><td colspan="2">Ivory meteors</td></tr>
+				<tr><td>Avg. per meteor</td><td id="ivoryMeteorAmt">0</td></tr>
+				<tr><td>Effective iPS</td><td id="ivoryPS">0</td></tr>
+			</table></div>
+
+			<div><table>
+				<tr><td colspan="2">Alicorns</td></tr>
+				<tr><td>Base aPS</td><td id="alicornPS">0</td></tr>
+				<tr><td>Rift average</td><td id="alicornEffect">0</td></tr>
+				<tr><td>Effective aPS</td><td id="alicornPSEffective">0</td></tr>
+				<tr><td>TCs per sacrifice</td><td id="alicornTCRefine">1</td></tr>
+			</table></div>
+		</div>
+		<br>
+
+		<table id="buildingsBlock"></table>
+		<br>
+
+		<table id="calendar">
+			<tr><td>Year</td><td><input id="year" value="0"></td></tr>
+			<tr><td>Planetary cycle</td><td><select id="cycleSel"></select></td></tr>
+		</table>
+		<div class="row"><label><input id="festival" type="checkbox"> Festival</label></div>
+		<br>
+
+		<table id="res">
+			<tr><td>Paragon</td><td><input id="paragon" value="0"></td></tr>
+			<tr><td>Burned paragon</td><td><input id="burnedParagon" value="0"></td></tr>
+			<tr><td>BLS</td><td><input id="sorrow" class="short" value="0"></td></tr>
+			<tr id="CMBRBonusRow" class="hidden">
+				<td>Magic kittens</td>
+				<td>
+					<span id="CMBRBonusSpan">+0%</span>
+					<label><input id="disableCMBR" type="checkbox" checked> Disable</label>
+				</td>
+			</tr>
+			<tr><td>Praise</td><td><input id="praise" value="0"> +<span id="praiseGain">0</span>%</td></tr>
+			<tr><td>Transcendence tier</td><td><input id="transcendenceTier" value="0" max="99"></td></tr>
+			<tr><td>Atheism challenge completions</td><td><input id="atheismCompetions" class="short" value="0"></td></tr>
+		</table>
+		<br>
+
+		<div id="workshopBlock"></div>
+		<div class="row"><label><input id="necrocracy" type="checkbox"> Necrocracy</label></div>
+		<br>
+
+		<div id="perksBlock"></div>
+	</form>
+	<br>
+
+	<p>
+		For <a href="http://kittensgame.com/web/" target="_blank">Kittens Game</a> version 1.4.9.0.r883
+		&copy; <a href="http://bloodrizer.ru/" target="_blank">bloodrizer</a>.
+		<br><br>
+		Unicorns Calculator by <a href="../index.html" target="_blank">patsy</a>, based on a spreadsheet by PoochyEXE.
+	</p>
+
+	<script src="unicorns.js"></script>
+</body>
+</html>

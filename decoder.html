@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="author" content="patsy">
+	<meta name="description" content="LZString-compressed JSON decoder for incremental games such as Kittens Game">
+
+	<title>Save decoder</title>
+	<script src="lib/lz-string.js"></script>
+
+	<style>
+		.hidden {
+			display: none;
+		}
+
+		.block {
+			display: inline-block;
+			margin-bottom: 1em;
+		}
+
+		textarea {
+			width: 700px;
+			height: 400px;
+		}
+
+		input[type="number"] {
+			width: 3em;
+		}
+
+		.error {
+			color: red;
+		}
+
+		.fade {
+			animation-duration: 1s;
+			animation-fill-mode: forwards;
+			animation-name: fadeout;
+		}
+
+		@keyframes fadeout {
+			0% {
+				visibility: visible;
+				opacity: 1;
+			}
+
+			100% {
+				visibility: hidden;
+				opacity: 0;
+			}
+		}
+	</style>
+
+</head>
+<body><form>
+	<div class="block">
+		<textarea id="decodeArea" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Save to decode"></textarea>
+		<div>
+			<input id="decodeBtn" type="button" value="Decode">
+
+			<!-- <label>
+				<input id="decodeFormatEnabled" type="checkbox">
+				Format JSON
+			</label> -->
+
+			<span title="(0 to disable)">
+				# spaces
+				<input id="decodeFormatNumSpaces" type="number" value="4" min="0" placeholder="0">
+			</span>
+
+			<input id="copyToEncodeBtn" type="button" value="Copy to Encode">
+			&nbsp; &nbsp;
+
+			<span class="clipboardCopy">
+				<input id="copyDecodeToClipboard" type="button" class="clipboardCopyBtn" value="Copy to clipboard">
+				<span id="copyDecodeToClipboardStatus" class="clipboardCopyStatus"></span>
+			</span>
+		</div>
+	</div>
+
+	<div class="block" style="float: right;">
+		<textarea id="encodeArea" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Text to encode"></textarea>
+		<div>
+			<input id="encodeBtn" type="button" value="Encode">
+
+			<input id="copyToDecodeBtn" type="button" value="Copy to Decode">
+			&nbsp; &nbsp;
+
+			<span class="clipboardCopy">
+				<input id="copyEncodeToClipboard" type="button" class="clipboardCopyBtn" value="Copy to clipboard">
+				<span id="copyEncodeToClipboardStatus" class="clipboardCopyStatus"></span>
+			</span>
+		</div>
+	</div>
+
+	<script>
+		"use strict";
+		/*global LZString*/
+
+		var numSpacesInput = document.getElementById("decodeFormatNumSpaces");
+
+		if (localStorage) {
+			var storedNumSpaces = localStorage.getItem("saveDecoderNumSpaces");
+
+			if (storedNumSpaces) {
+				numSpacesInput.value = storedNumSpaces;
+			}
+
+			numSpacesInput.addEventListener("input", function () {
+				var numSpaces = Math.floor(numSpacesInput.value) || 0;
+				localStorage.setItem("saveDecoderNumSpaces", numSpaces);
+			}, false);
+		}
+
+		document.forms[0].addEventListener("submit", function (event) {
+			event.preventDefault();
+		}, false);
+
+
+		document.getElementById("copyToEncodeBtn").addEventListener("click", function () {
+			document.getElementById("encodeArea").value = document.getElementById("decodeArea").value;
+		});
+
+		document.getElementById("copyToDecodeBtn").addEventListener("click", function () {
+			document.getElementById("decodeArea").value = document.getElementById("encodeArea").value;
+		});
+
+
+		document.getElementById("decodeBtn").addEventListener("click", function () {
+			var area = document.getElementById("decodeArea");
+			var data = area.value;
+			data = data.replace(/\s+/g, "");
+			var decoded = LZString.decompressFromBase64(data);
+			var formatted = decoded;
+
+			var numSpaces = Math.floor(numSpacesInput.value) || 0;
+
+			if (numSpaces > 0) {
+				try {
+					var spaces = "";
+					if ("".repeat) {
+						spaces = " ".repeat(numSpaces);
+					} else {
+						var i = numSpaces;
+						while (i > 0) {
+							spaces += " ";
+							i--;
+						}
+					}
+
+					var json = JSON.parse(decoded);
+					formatted = JSON.stringify(json, null, spaces);
+				} catch (err) {
+					console.error(err);
+					formatted = decoded;
+				}
+			}
+
+			area.value = formatted;
+		}, false);
+
+		document.getElementById("encodeBtn").addEventListener("click", function () {
+			var area = document.getElementById("encodeArea");
+
+			var data = area.value.trim();
+			try {
+				var json = JSON.parse(data);
+				data = JSON.stringify(json);
+			} catch (err) {
+				console.error(err);
+			}
+
+			area.value = LZString.compressToBase64(data);
+		}, false);
+
+		function copyToClipboard(input, status) {
+			try {
+				input.select();
+				document.execCommand("copy");
+
+			} catch (err) {
+				document.querySelectorAll(".clipboardCopyBtn").forEach(function (ele) { ele.classList.add("hidden"); });
+				status.classList.add("error");
+				status.innerHTML = "Copy error!";
+				throw err;
+			}
+
+			status.innerHTML = '<span class="fade">Copied!</span>';
+		}
+
+		document.getElementById("copyDecodeToClipboard").addEventListener("click", function () {
+			copyToClipboard(document.getElementById("decodeArea"), document.getElementById("copyDecodeToClipboardStatus"));
+		});
+
+		document.getElementById("copyEncodeToClipboard").addEventListener("click", function () {
+			copyToClipboard(document.getElementById("encodeArea"), document.getElementById("copyEncodeToClipboardStatus"));
+		});
+	</script>
+</form></body>
+</html>

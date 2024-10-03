@@ -1,0 +1,111 @@
+html {
+	font-size: 16px;
+}
+
+body, form {
+	background-color: #ffffff;
+	color: #000000;
+}
+
+:link, :visited {
+	color: #0000ee;
+}
+
+#importDiv, #helpDiv {
+	position: absolute;
+	border: 1px solid black;
+	width: 600px;
+	height: 320px;
+	top: 50%;
+	margin-top: -160px;
+	padding: 20px;
+	background-color: inherit;
+}
+
+#helpDiv {
+	overflow-y: auto;
+}
+
+.red  {
+	color: #ee0000;
+}
+
+.hidden,
+.collapser, .collapser:checked ~ .collapse,
+.workerNode:not(.isLeader) .workerIsLeader,
+.workerNode.isLeader .workerMakeLeader,
+.skillDivs:not(:empty) + .noWorkers,
+.anarchy .noAnarchy,
+.anarchy .collapser:checked + label span::before {
+	display: none;
+}
+
+/*.collapser + label {
+	cursor: pointer;
+}*/
+
+.collapser + label span::before {
+	content: "[-]";
+	font-family: monospace;
+	margin-right: 3px;
+}
+
+.collapser:checked + label span::before {
+	content: "[+]";
+}
+
+.alignLeft {
+	text-align: left;
+}
+
+table {
+	border-spacing: 0;
+}
+
+th, td {
+	padding: 3px 0 0 3px;
+	vertical-align: bottom;
+}
+
+th ~ th, td ~ td {
+	padding-left: 6px;
+}
+
+th:last-child, td:last-child {
+	padding-right: 2px;
+}
+
+#gains td ~ td {
+	text-align: right;
+}
+
+.row, .skillDivs > div {
+	margin-top: 3px;
+}
+
+input[max],
+input.short {
+	width: 50px;
+}
+
+.skillDivs {
+	margin-left: 10px;
+}
+
+.workerName {
+	display: inline-block;
+	min-width: 110px;
+}
+
+label, input[type="button"]:not([disabled]) {
+	cursor: pointer
+}
+
+label:not(.hidden) ~ label {
+	padding-left: 5px;
+}
+
+.ital,
+.noWorkers {
+	font-style: italic;
+}

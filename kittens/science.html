@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="author" content="patsy">
+	<meta name="description" content="Max science calculator for Kittens Game">
+
+	<title>Max Science Calculator</title>
+	<script src="../lib/lz-string.js"></script>
+	<script src="../lib/jquery-3.2.1.slim.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="vs.css">
+
+	<!-- <style>
+	</style> -->
+
+</head>
+<body>
+	<div id="load">Loading...</div>
+	<form class="hidden">
+		<input id="showImport" type="button" value="Import data">
+		&nbsp;
+		<label><input id="forceHighPrecision" type="checkbox" checked> Use high precision</label>
+
+		<div id="importDiv" class="hidden">
+			Import save<br>
+			<textarea id="importData" style="width: 550px; height: 250px;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea><br>
+			<input id="importOK" type="button" value="OK">
+			<input id="importCancel" type="button" value="Cancel">
+			<span id="importError" class="hidden">Unable to import data!</span>
+		</div>
+		<br><br>
+
+		<table id="calcs">
+			<tr><td>Max science</td><td id="scienceMax">250</td></tr>
+			<tr><td>-> From compendia</td><td id="scienceMaxCompendia">0</td></tr>
+			<tr><td>Compendia for max bonus</td><td id="compendiaForMax">0</td></tr>
+			<tr><td>Max science from compendia</td><td id="scienceMaxCompendiaLimit">0</td></tr>
+		</table>
+		<br>
+
+		<table id="res">
+			<tr><td>Paragon</td><td><input id="paragon" value="0"></td></tr>
+			<tr><td>Burned paragon</td><td><input id="burnedParagon" value="0"></td></tr>
+			<tr><td>Compendium</td><td><input id="compedium" value="0"></td></tr>
+		</table>
+		<br>
+
+		<div><label><input id="ironWill" type="checkbox"> Iron will</label></div>
+		<br>
+
+		<table id="calendar">
+			<tr><td>Year</td><td><input id="year" value="0"></td></tr>
+			<tr><td>Planetary cycle</td><td><select id="cycleSel"></select></td></tr>
+		</table>
+		<br>
+
+		<table id="buildingsBlock"></table>
+		<br>
+
+		<table id="spaceBlock"></table>
+		<br>
+
+		<table id="religionBlock">
+			<tr><td>Transcendence level</td><td><input id="transcendenceLevel" value="0" max="99"></td>
+		</table>
+		<br>
+
+		<div id="workshopBlock"></div>
+		<br>
+
+		<div id="perksBlock"></div>
+
+	</form>
+	<br>
+
+	<p>
+		For <a href="http://bloodrizer.ru/games/kittens/" target="_blank">Kittens Game</a> version 1.4.6.1
+		&copy; <a href="http://bloodrizer.ru/" target="_blank">bloodrizer</a>.
+		<br><br>
+		Max Science Calculator by <a href="../index.html" target="_blank">patsy</a>.
+	</p>
+
+	<script src="science.js"></script>
+</body>
+</html>
