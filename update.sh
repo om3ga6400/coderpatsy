@@ -1,9 +1,3 @@
-rm -r cookies
-rm -r kittens
-rm -r lib
+rm -rf cookies kittens lib decoder.html index.html license.txt
 
-rm -f decoder.html
-rm -f index.html
-rm -f license.txt
-
-wget -mkEpnpH https://coderpatsy.bitbucket.io/
+wget -q -mkEpnpH https://coderpatsy.bitbucket.io/
